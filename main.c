@@ -9,11 +9,13 @@
 *******************************************************************************/
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include "stm32f1xx_hal.h"
 #include "main.h"
 #include "gpio.h"
 #include "oled.h"
 #include "bmp.h"
 #include "rtc.h"
+#include "key.h"
 void SystemClock_Config(void);
 /* 呼吸灯初始化*/
 void HAL_delay_us(uint32_t us)
@@ -39,9 +41,9 @@ static void RTC_CalendarShow(uint8_t *showtime, uint8_t *showdate)
   /* Get the RTC current Date */
   HAL_RTC_GetDate(&hrtc, &sdatestructureget, RTC_FORMAT_BIN);
 //  /* Display time Format : hh:mm:ss */
-  sprintf((char *)showtime, "%2d:%2d:%2d", stimestructureget.Hours, stimestructureget.Minutes, stimestructureget.Seconds);
-//  /* Display date Format : mm-dd-yy */
-  sprintf((char *)showdate, "%2d-%2d-%2d", sdatestructureget.Month, sdatestructureget.Date, 2000 + sdatestructureget.Year);
+  //sprintf((char *)showtime, "%2d:%2d:%2d", stimestructureget.Hours, stimestructureget.Minutes, stimestructureget.Seconds);
+//  /* Display date Format : mm.dd.yy */
+  //sprintf((char *)showdate, "%2d.%2d.%2d", 2000 + sdatestructureget.Year,sdatestructureget.Month, sdatestructureget.Date);
 }
 /**
   * @brief  The application entry point.
@@ -73,8 +75,10 @@ int main(void)
   MX_GPIO_Init();
 	MX_RTC_Init();                //RTC初始化
   /* USER CODE BEGIN 2 */
+		KEY_Init();
 		OLED_Init();//OLED初始化  
 		OLED_Clear();//清屏
+	  taskIndex = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -144,19 +148,23 @@ int main(void)
 	OLED_DrawBMP(0,0,128,8,BMP_load14);  //图片显示旋转
 	HAL_Delay(50);
 	}
-	OLED_DrawBMP(0,0,128,8,BMP_PHONE);  //图片显示手机屏幕
-	
+	//HAL_Delay(2000);
+	OLED_Clear();//清屏
+	//OLED_DrawBMP(0,0,128,8,BMP_MENU);  //图片显示菜单屏幕
+	//OLED_DrawBMP(0,0,128,8,image_uihome);
 	 while (1)
   {
-			HAL_Delay(1000);
-			OLED_Clear();//清屏
-		  RTC_CalendarShow(aShowTime, aShowDate);//读取时间，日期保存到数组
-			OLED_ShowString(20,1,aShowTime);//显示字符串
-			OLED_ShowString(20,5,aShowDate);//显示字符串
-  }
-  
+			
+		  //RTC_CalendarShow(aShowTime, aShowDate);//读取时间，日期保存到数组
+			//OLED_ShowString(0,0,aShowTime);//显示字符串
+			//OLED_ShowString(32,2,aShowDate);//显示字符串
+		  Key_Process();  // 声明 // 检查按键并更新菜单索引
+		  taskTable[taskIndex].Current_Operation();//执行函数
+			HAL_Delay(100);  // 防止按钮抖动和频繁切换
+			
+	}
 	
-	
+	/*
 	int i = 1;
   while (1)
   {
@@ -180,14 +188,12 @@ int main(void)
 		//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);//PC13引脚翻转输出
 		//HAL_Delay(100);//等待100ms
 		
-  }
-  
+		}
+*/
+	
 }
 
-/**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -222,9 +228,6 @@ void SystemClock_Config(void)
   }
 }
 
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.
@@ -256,3 +259,4 @@ void assert_failed(uint8_t *file, uint32_t line)
 #endif /* USE_FULL_ASSERT */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
