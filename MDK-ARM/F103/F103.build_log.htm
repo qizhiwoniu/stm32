@@ -22,22 +22,19 @@ Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
 C:\Users\Administrator\Desktop\code\MDK-ARM\F103.uvprojx
-Project File Date:  12/04/2024
+Project File Date:  12/10/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Users\Administrator\AppData\Local\Keil_v5\ARM\ARMCC\Bin'
 Build target 'F103'
 compiling key.c...
-compiling main.c...
-../Src/main.c(161): warning:  #223-D: function "Key_Process" declared implicitly
-  		  Key_Process();  // 声明 // 检查按键并更新菜单索引
-../Src/main.c(34): warning:  #177-D: function "RTC_CalendarShow"  was declared but never referenced
-  static void RTC_CalendarShow(uint8_t *showtime, uint8_t *showdate)
-../Src/main.c: 2 warnings, 0 errors
+..\Src\key.c(35): warning:  #223-D: function "Toggle_Bluetooth" declared implicitly
+  					  Toggle_Bluetooth();   // 切换蓝牙状态	
+..\Src\key.c: 1 warning, 0 errors
 linking...
-Program Size: Code=6112 RO-data=880 RW-data=18772 ZI-data=1044  
+Program Size: Code=17016 RO-data=880 RW-data=9124 ZI-data=3180  
 FromELF: creating hex file...
-"F103\F103.axf" - 0 Error(s), 2 Warning(s).
+"F103\F103.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -60,7 +57,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE@6.1.0
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

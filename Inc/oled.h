@@ -46,6 +46,10 @@ typedef unsigned long u32;
 #define KEY_R_C_Pin GPIO_PIN_1
 #define KEY_R_D_GPIO_Port GPIOB
 #define KEY_R_D_Pin GPIO_PIN_0
+#define KEY_E_GPIO_Port GPIOB
+#define KEY_E_Pin GPIO_PIN_10
+#define KEY_F_GPIO_Port GPIOB
+#define KEY_F_Pin GPIO_PIN_11
 //---------------------------------------------
 typedef struct
 {
@@ -53,6 +57,7 @@ typedef struct
 	uint8_t Enter;		//确认键
 	uint8_t Next;		//下一个
 	uint8_t Return;		//返回键
+	uint8_t up; //上一个
 	void (*Current_Operation)(void);//当前操作(函数指针)
 }Menu_table_t;
 
@@ -66,6 +71,14 @@ void Function_Interface3(void);
 void Function_Interface4(void);
 void Function_Interface5(void);
 void Function_Interface6(void);
+void Function_Interface7(void);
+void Function_Interface8(void);
+void Function_Interface9(void);
+void Function_Interface10(void);
+void Function_Interface11(void);
+void Function_Interface12(void);
+void Function_Interface13(void);
+void Function_Interface14(void);
 //---------------------------------------------
 //OLED控制用函数
 void OLED_WR_Byte(u8 dat,u8 cmd);	    
@@ -81,8 +94,10 @@ void OLED_ShowString(u8 x,u8 y, u8 *p);
 void OLED_Set_Pos(unsigned char x, unsigned char y);
 void OLED_ShowCHinese(u8 x,u8 y,u8 no);
 void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,unsigned char BMP[]);
-
-
+void OLED_GotoXY(u8 x, u8 y);
+void OLED_UpdateScreen(void);
+void OLED_DrawRectangle(u8 x1, u8 y1, u8 x2, u8 y2);
+void OLED_DrawLine(u8 x1, u8 y1, u8 x2, u8 y2);
 #endif  
 	 
 
